@@ -23,4 +23,19 @@ router.post("/api/auth/signin", authController.signin);
 // Sign out
 router.get("/api/auth/signout", authController.signout);
 
+
+// EMPLOYEE ROUTES
+router.param("userId", catchErrors(userController.getUserById));
+
+router
+  .route("/api/users/:userId")
+  .get(
+    authController.checkAuth,
+    userController.getUserProfile
+  );
+// .put(
+//   authController.checkAuth,
+//   catchErrors(userController.updateUser)
+// );
+
 module.exports = router;

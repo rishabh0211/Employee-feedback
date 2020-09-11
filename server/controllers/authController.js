@@ -51,8 +51,8 @@ exports.signout = async (req, res) => {
 };
 
 exports.checkAuth = (req, res, next) => {
-  if (!req.user.admin) {
-    return res.status(401).send({message: "You need "})
+  if (!req.user.admin && !req.isAuthUser) {
+    return res.status(401).send({ message: "You don't have the permission to access this profile" })
   }
   next();
 };
