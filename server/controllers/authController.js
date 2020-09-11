@@ -52,7 +52,7 @@ exports.signout = async (req, res) => {
 
 exports.checkAuth = (req, res, next) => {
   if (!req.user.admin && !req.isAuthUser) {
-    return res.status(401).send({ message: "You don't have the permission to access this profile" })
+    return res.status(401).send({ message: "You are not authorized to perform this action" });
   }
   next();
 };

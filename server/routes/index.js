@@ -36,6 +36,10 @@ router
   .put(
     authController.checkAuth,
     catchErrors(userController.updateUser)
+  )
+  .delete(
+    authController.checkAuth,
+    catchErrors(userController.deleteProfile)
   );
 
 module.exports = router;

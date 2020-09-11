@@ -30,3 +30,9 @@ exports.updateUser = async (req, res, next) => {
   );
   res.json(updatedUser);
 };
+
+exports.deleteProfile = async (req, res) => {
+  const { userId } = req.params;
+  const deletedUser = await User.findByIdAndDelete({ _id: userId });
+  res.json(deletedUser);
+};
