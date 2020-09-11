@@ -43,3 +43,16 @@ exports.signin = async (req, res, next) => {
     });
   })(req, res, next);
 };
+
+exports.signout = async (req, res) => {
+  res.clearCookie("employee-feedback.sid");
+  req.logout();
+  res.json({ message: "You are now signed out" });
+};
+
+exports.checkAuth = (req, res, next) => {
+  if (!req.user.admin) {
+    return res.status(401).send({message: "You need "})
+  }
+  next();
+};

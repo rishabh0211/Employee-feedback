@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
+const authController = require("../controllers/authController");
 
 const catchErrors = fn => {
   return function (req, res, next) {
@@ -8,11 +9,18 @@ const catchErrors = fn => {
   };
 };
 
+// AUTH ROUTES
 
+// Sign up
 router.post(
   "/api/auth/signup",
-  userController.getUser,
-  catchErrors()
+  authController.validateSignupRules(),
+  authController.validateSignup,
+  catchErrors(authController.signup)
 );
+// Sign in
+router.post("/api/auth/signin", authController.signin);
+// Sign out
+router.get("/api/auth/signout", authController.signout);
 
 module.exports = router;

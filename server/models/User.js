@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
 
@@ -31,7 +32,7 @@ const userSchema = new mongoose.Schema(
     },
     usersReviewed: [{ type: ObjectId, ref: "User" }],
     usersToReview: [{ type: ObjectId, ref: "User" }],
-    feebacks: [{type: ObjectId, ref: "Feedback"}],
+    feebacks: [{ type: ObjectId, ref: "Feedback" }],
     admin: Boolean
   },
   { timestamps: true }
@@ -52,6 +53,23 @@ userSchema.methods.toJSON = function () {
 };
 
 userSchema.pre("findOne", autoPopulateReviewUsers);
+
+// Hash the plain text password before saving :: Mongoose middleware
+userSchema.pre('save', async function (next) {
+  const user = this;
+  if (user.isModified('password')) {
+    user.password = await bcrypt.hash(user.password, 8);
+  }
+  next();
+});
+
+userSchema.post("save", function (error, doc, next) {
+  if (error.name === 'MongoError' && error.code === 11000) {
+    next(new Error('Email must be unique'));
+  } else {
+    next(error);
+  }
+});
 
 // userSchema.plugin(passportLocalMongoose, { usernameField: "email" });
 // userSchema.plugin(mongodbErrorHandler);

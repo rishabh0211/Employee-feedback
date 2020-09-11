@@ -26,7 +26,7 @@
   },
   "scripts": {
     "build": "node ./buildScript",
-    "start-server": "env-cmd -f ./config/dev.env cross-env NODE_ENV=development nodemon server/app.js --watch server/*",
+    "start-server": "env-cmd -f ./config/dev.env cross-env NODE_ENV=development nodemon server/app.js --watch server --watch server/controllers --watch server/db --watch server/models --watch server/routes",
     "start-front": "react-scripts start",
     "build-front": "react-scripts build",
     "dev": "env-cmd -f ./config/dev.env nodemon src/app.js",
