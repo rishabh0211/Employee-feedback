@@ -20,8 +20,8 @@ passport.deserializeUser((id, done) => {
 
 // Local strategy
 passport.use(
-  new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
-    User.findOne({ email })
+  new LocalStrategy({ usernameField: "email", passwordField: "password" }, (email, password, done) => {
+    User.findOne({ email: email })
       .then(user => {
         if (!user) {
           return done(null, false, { message: "No user found with the given email" });
@@ -31,7 +31,7 @@ passport.use(
           if (isMatch) {
             return done(null, user);
           } else {
-            return done(null, false, { message: "Wrong password" });
+            return done(null, false, { message: "Incorrect password" });
           }
         });
       }).catch(err => {
