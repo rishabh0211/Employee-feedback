@@ -28,12 +28,12 @@ app.use(express.json());
 
 const MongoStore = mongoSessionStore(session);
 const sessionConfig = {
-  name: "next-connect.sid",
+  name: "employee-feedback.sid",
   // secret used for using signed cookies w/ the session
   secret: process.env.SESSION_SECRET,
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
-    ttl: 14 * 24 * 60 * 60 // save session for 14 days
+    ttl: 1 * 24 * 60 * 60 // save session for 1 day
   }),
   // forces the session to be saved back to the store
   resave: false,
@@ -41,7 +41,7 @@ const sessionConfig = {
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 * 14 // expires in 14 days
+    maxAge: 1000 * 60 * 60 * 24 * 1// expires in 1 days
   }
 };
 if (!dev) {
@@ -60,7 +60,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json());
 app.use(logger("combined"));
 app.use(cors({
   origin: 'http://localhost:3000',
