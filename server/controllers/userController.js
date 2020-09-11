@@ -21,12 +21,12 @@ exports.getUserProfile = async (req, res) => {
   res.json(req.profile);
 };
 
-// exports.updateUser = async (req, res, next) => {
-//   req.body.updatedAt = new Date().toISOString();
-//   const updatedUser = await User.findOneAndUpdate(
-//     { _id: req.profile._id },
-//     { $set: req.body },
-//     { new: true, runValidators: true }
-//   );
-//   res.json(updatedUser);
-// };
+exports.updateUser = async (req, res, next) => {
+  req.body.updatedAt = new Date().toISOString();
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: req.profile._id },
+    { $set: req.body },
+    { new: true, runValidators: true }
+  );
+  res.json(updatedUser);
+};

@@ -32,10 +32,10 @@ router
   .get(
     authController.checkAuth,
     userController.getUserProfile
+  )
+  .put(
+    authController.checkAuth,
+    catchErrors(userController.updateUser)
   );
-// .put(
-//   authController.checkAuth,
-//   catchErrors(userController.updateUser)
-// );
 
 module.exports = router;
