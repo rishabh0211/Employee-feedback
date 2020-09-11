@@ -30,7 +30,7 @@ router.param("userId", catchErrors(userController.getUserById));
 router
   .route("/api/users/:userId")
   .get(
-    authController.checkAuth,
+    // authController.checkAuth,
     userController.getUserProfile
   )
   .put(
@@ -41,5 +41,8 @@ router
     authController.checkAuth,
     catchErrors(userController.deleteProfile)
   );
+
+// FEEDBACK ROUTES
+router.post("/api/feedback", authController.isAdmin, userController.addUserToReview);
 
 module.exports = router;

@@ -36,3 +36,13 @@ exports.deleteProfile = async (req, res) => {
   const deletedUser = await User.findByIdAndDelete({ _id: userId });
   res.json(deletedUser);
 };
+
+exports.addUserToReview = async (req, res, next) => {
+  const { targetUserId, userId } = req.body;
+  const user = await User.findOneAndUpdate(
+    { _id: targetUserId, "usersToReview": { $ne: userId } },
+    { $push: { "usersToReview": userId } },
+    { new: true }
+  );
+  res.json(user);
+};
