@@ -30,20 +30,34 @@ const userSchema = new mongoose.Schema(
         }
       }
     },
-    usersReviewed: [{ type: ObjectId, ref: "User" }],
+    // usersReviewed: [{ type: ObjectId, ref: "User" }],
     usersToReview: [{ type: ObjectId, ref: "User" }],
-    feebacks: [{ type: ObjectId, ref: "Feedback" }],
+    // feebacks: [{ type: ObjectId, ref: "Feedback" }],
+    feedbacks: [
+      {
+        user: {
+          type: ObjectId,
+          ref: "User"
+        },
+        feedback: {
+          type: String,
+          required: true,
+          maxlength: 200
+        }
+      }
+    ],
     admin: Boolean
   },
   { timestamps: true }
 );
 
 const autoPopulateReviewUsers = function (next) {
-  this.populate("usersReviewed", "_id name email");
+  // this.populate("usersReviewed", "_id name email");s
   this.populate("usersToReview", "_id name email");
-  this.populate("feebacks", "_id by from");
+  this.populate("feedbacks.user", "_id name email");
   next();
 };
+userSchema.pre("findOne", autoPopulateReviewUsers);
 
 userSchema.methods.toJSON = function () {
   const user = this;
@@ -51,8 +65,6 @@ userSchema.methods.toJSON = function () {
   delete userObject.password;
   return userObject;
 };
-
-userSchema.pre("findOne", autoPopulateReviewUsers);
 
 // Hash the plain text password before saving :: Mongoose middleware
 userSchema.pre('save', async function (next) {
