@@ -45,6 +45,8 @@ router
 // FEEDBACK ROUTES
 router.post("/api/feedback/addUser", authController.isAdmin, userController.addUserToReview);
 
+router.get("/api/feedback/:feedbackId", userController.getFeedback);
+
 router.post(
   "/api/feedback",
   userController.addFeedback

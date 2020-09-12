@@ -68,6 +68,15 @@ exports.addFeedback = async (req, res, next) => {
   res.send(user);
 };
 
+exports.getFeedback = async (req, res) => {
+  const { feedbackId } = req.params;
+  const user = await User.findOne(
+    { "feedbacks._id": feedbackId }
+  );
+  const feedback = user.feedbacks.find(feedback => feedback.id === feedbackId);
+  res.json(feedback);
+};
+
 const canReviewUser = (userId, usersToReview = []) => {
   for (let i = 0; i < usersToReview.length; i++) {
     if (usersToReview[i]._id == userId) {
