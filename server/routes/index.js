@@ -46,6 +46,7 @@ router
 router.post("/api/feedback/addUser", authController.isAdmin, userController.addUserToReview);
 
 router.get("/api/feedback/:feedbackId", userController.getFeedback);
+router.delete("/api/feedback/:feedbackId", authController.checkAuth, userController.deleteFeedback);
 
 router.post(
   "/api/feedback",
