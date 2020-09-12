@@ -87,6 +87,17 @@ exports.deleteFeedback = async (req, res) => {
   res.json(user);
 };
 
+exports.editFeedback = async (req, res, next) => {
+  const { feedbackId } = req.params;
+  const { message } = req.body;
+  const user = await User.findOneAndUpdate(
+    { "feedbacks._id": feedbackId, feedbacks: { $elemMatch: { "_id": feedbackId } } },
+    { $set: { "feedbacks.$.feedback": message } },
+    { new: true }
+  );
+  res.json(user);
+};
+
 const canReviewUser = (userId, usersToReview = []) => {
   for (let i = 0; i < usersToReview.length; i++) {
     if (usersToReview[i]._id == userId) {
