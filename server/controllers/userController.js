@@ -46,3 +46,33 @@ exports.addUserToReview = async (req, res, next) => {
   );
   res.json(user);
 };
+
+exports.addFeedback = async (req, res, next) => {
+  const { userId, feedback } = req.body;
+  const { usersToReview } = req.user;
+  if (!usersToReview || !usersToReview.length || !canReviewUser(userId, usersToReview)) {
+    return res.status(403).json({ message: "You cannot review this employee" });
+  }
+  const updateObj = { user: req.user._id, feedback };
+  const user = await User.findOneAndUpdate(
+    { _id: userId, "feedbacks.user": { $ne: req.user._id } },
+    { $push: { "feedbacks": updateObj } },
+    { new: true }
+  );
+  if (user) {
+    await User.findOneAndUpdate(
+      { _id: req.user._id },
+      { $pull: { "usersToReview": user._id } }
+    );
+  }
+  res.send(user);
+};
+
+const canReviewUser = (userId, usersToReview = []) => {
+  for (let i = 0; i < usersToReview.length; i++) {
+    if (usersToReview[i]._id == userId) {
+      return true;
+    }
+  }
+  return false;
+};

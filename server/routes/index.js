@@ -43,6 +43,12 @@ router
   );
 
 // FEEDBACK ROUTES
-router.post("/api/feedback", authController.isAdmin, userController.addUserToReview);
+router.post("/api/feedback/addUser", authController.isAdmin, userController.addUserToReview);
+
+router.post(
+  "/api/feedback",
+  userController.addFeedback
+);
+
 
 module.exports = router;
