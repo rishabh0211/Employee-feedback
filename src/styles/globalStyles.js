@@ -22,11 +22,13 @@ const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: "Roboto, sans-serif";
+    font-family: "Roboto";
     font-size: 1.4rem;
-    background: ${colors.mainBg};
+    background: ${colors.lightGray};
+    color: ${colors.darkBlue};
     max-width: 100rem;
     margin: auto;
+    letter-spacing: .1rem;
 
     &.hidden {
       overflow: hidden;

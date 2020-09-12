@@ -1,16 +1,24 @@
 import React from 'react';
-import StyledHome from './styled/StyledHome';
+import { ThemeProvider } from "styled-components";
 import { Switch, Route } from "react-router-dom";
+
+import StyledHome from './styled/StyledHome';
 import Login from './Login';
+import Nav from './Nav';
+import theme from '../styles/theme';
 
 const Home = () => {
   return (
-    <StyledHome>
-      <h1>Home</h1>
-      <Switch>
-        <Route path="/" exact component={Login} />
-      </Switch>
-    </StyledHome>
+    <ThemeProvider theme={theme}>
+      <StyledHome>
+        <Nav />
+        <div className="main-container">
+          <Switch>
+            <Route path="/" exact component={Login} />
+          </Switch>
+        </div>
+      </StyledHome>
+    </ThemeProvider>
   )
 }
 
