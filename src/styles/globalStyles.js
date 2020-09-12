@@ -25,6 +25,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: "Roboto, sans-serif";
     font-size: 1.4rem;
     background: ${colors.mainBg};
+    max-width: 100rem;
+    margin: auto;
 
     &.hidden {
       overflow: hidden;
