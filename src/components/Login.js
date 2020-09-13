@@ -6,8 +6,8 @@ import { useHistory } from "react-router-dom";
 
 const Login = ({ user, loginUser }) => {
   const history = useHistory();
-  const [email, setEmail] = useState('messi@gmail.com');
-  const [password, setPassword] = useState('pass1234');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   useEffect(() => {
