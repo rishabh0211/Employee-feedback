@@ -24,7 +24,8 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
   }, []);
 
   useEffect(() => {
-    setSearchedUsers(users);
+    const userList = users.filter(user => user._id !== currentUser._id);
+    setSearchedUsers(userList);
   }, [users]);
 
   useEffect(() => {
@@ -99,6 +100,7 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
         <h1 className="dashboard-title">Dashboard</h1>
         <button className="create-btn" onClick={handleCreateEmployee}>Create Employee</button>
       </div>
+      <h3 className="user-name">Hello {currentUser && currentUser.name}</h3>
       <div className="search-container">
         <div className="search-dropdown">
           <input
@@ -109,6 +111,7 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
             value={selectedUser ? selectedUser.name : searchValue}
             onChange={handleSearchChange}
             autoComplete="off"
+            placeholder="Type the name here"
             // onBlur={handleInputBlur}
             onFocus={() => setShowDropdownList(true)}
           />

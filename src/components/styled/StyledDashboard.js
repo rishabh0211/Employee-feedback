@@ -18,6 +18,10 @@ export default styled.section`
     padding: 1rem;
   }
 
+  .user-name {
+    margin-top: 2rem;
+  }
+
   .search-container {
     margin-top: 2rem;
     max-width: 45rem;
