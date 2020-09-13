@@ -40,7 +40,8 @@
     "dev-2": "concurrently \"npm run start-server\" \"npm run start-front\" --kill-others",
     "start": "env-cmd -f ./config/dev.env node server/app.js",
     "test": "env-cmd -f ./config/test.env jest --watch --runInBand",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
