@@ -6,7 +6,6 @@ import StyledHome from './styled/StyledHome';
 import Login from './Login';
 import Nav from './Nav';
 import theme from '../styles/theme';
-import Employee from './Employee';
 
 const LazyDashboard = React.lazy(() => import("./Dashboard"));
 const LazyEmployee = React.lazy(() => import("./Employee"));

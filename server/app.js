@@ -45,11 +45,12 @@ const sessionConfig = {
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 * 1// expires in 1 days
+    maxAge: 1000 * 60 * 60 * 24 * 1 // expires in 1 days
   }
 };
 if (!dev) {
   sessionConfig.cookie.secure = true; // serve secure cookies in production environment
+  server.set("trust proxy", 1); // trust first proxy
 }
 app.use(session(sessionConfig));
 
@@ -65,9 +66,7 @@ app.use((req, res, next) => {
 
 app.use(logger("combined"));
 app.use(cors({
-  origin: ['http://localhost:3000'],
-  optionsSuccessStatus: 200,
-  credentials: true,
+  credentials: true
 }));
 
 app.use("/", routes);
