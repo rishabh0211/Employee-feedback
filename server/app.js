@@ -22,8 +22,6 @@ const app = express();
 
 
 if (!dev) {
-  const staticPath = path.join(__dirname, 'build');
-  app.use(express.static(staticPath));
   app.use(helmet());
   app.use(compression());
 }
@@ -70,6 +68,9 @@ app.use(cors({
 }));
 
 app.use("/", routes);
+
+const staticPath = path.join(__dirname, 'build');
+app.use('*', express.static(staticPath));
 
 app.listen(port, () => {
   console.log(`Server is up and running on port ${port}`);
