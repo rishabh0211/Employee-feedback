@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ThemeProvider } from "styled-components";
 import { Switch, Route } from "react-router-dom";
 
@@ -6,8 +6,10 @@ import StyledHome from './styled/StyledHome';
 import Login from './Login';
 import Nav from './Nav';
 import theme from '../styles/theme';
-import Dashboard from './Dashboard';
 import Employee from './Employee';
+
+const LazyDashboard = React.lazy(() => import("./Dashboard"));
+const LazyEmployee = React.lazy(() => import("./Employee"));
 
 const Home = () => {
   return (
@@ -15,11 +17,13 @@ const Home = () => {
       <StyledHome>
         <Nav />
         <div className="main-container">
-          <Switch>
-            <Route path="/" exact component={Login} />
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/employee" component={Employee} />
-          </Switch>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Switch>
+              <Route path="/" exact component={Login} />
+              <Route path="/dashboard" component={LazyDashboard} />
+              <Route path="/employee" component={LazyEmployee} />
+            </Switch>
+          </Suspense>
         </div>
       </StyledHome>
     </ThemeProvider>
