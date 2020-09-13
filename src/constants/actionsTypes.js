@@ -1,4 +1,4 @@
-export const API_ENDPOINT = 'http://localhost:4000';
+export const API_ENDPOINT = '/';
 
 export const USER_LOGIN_START = "USER_LOGIN_START";
 export const USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
