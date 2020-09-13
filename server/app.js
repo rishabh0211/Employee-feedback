@@ -20,10 +20,10 @@ const dev = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || 4000;
 const app = express();
 
-const staticPath = path.join(__dirname, 'build');
-app.use(express.static(staticPath));
 
 if (!dev) {
+  const staticPath = path.join(__dirname, 'build');
+  app.use(express.static(staticPath));
   app.use(helmet());
   app.use(compression());
 }

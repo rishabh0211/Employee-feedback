@@ -38,7 +38,7 @@
     "build-front": "react-scripts build",
     "dev-1": "env-cmd -f ./config/dev.env nodemon server/app.js",
     "dev-2": "concurrently \"npm run start-server\" \"npm run start-front\" --kill-others",
-    "start": "env-cmd -f ./config/dev.env node server/app.js",
+    "start": "node server/app.js",
     "test": "env-cmd -f ./config/test.env jest --watch --runInBand",
     "eject": "react-scripts eject",
     "heroku-postbuild": "npm run build"
