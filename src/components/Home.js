@@ -6,6 +6,8 @@ import StyledHome from './styled/StyledHome';
 import Login from './Login';
 import Nav from './Nav';
 import theme from '../styles/theme';
+import Dashboard from './Dashboard';
+import Employee from './Employee';
 
 const Home = () => {
   return (
@@ -15,6 +17,8 @@ const Home = () => {
         <div className="main-container">
           <Switch>
             <Route path="/" exact component={Login} />
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/employee" component={Employee} />
           </Switch>
         </div>
       </StyledHome>

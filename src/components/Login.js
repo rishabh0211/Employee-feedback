@@ -11,8 +11,12 @@ const Login = ({ user, loginUser }) => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (user && Object.keys(user).length)
-      history.push('/dashboard');
+    if (user && Object.keys(user).length) {
+      if (user.admin) {
+        return history.push("/dashboard");
+      }
+      history.push("/employee");
+    }
   }, [user]);
 
   const handleChange = (type) => {
