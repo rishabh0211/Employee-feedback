@@ -123,3 +123,16 @@ export const submitFeedback = (userId, feedback) => {
       });
   };
 };
+
+export const signOutUser = () => {
+  return dispatch => {
+    dispatch(getActionObj(actionTypes.SIGN_OUT_START));
+    return fetch(`${actionTypes.API_ENDPOINT}/api/auth/signout`, {
+      credentials: "include",
+    })
+      .then(res => res.json())
+      .then(data => {
+        dispatch(getActionObj(actionTypes.SIGN_OUT_SUCCESS));
+      });
+  };
+};

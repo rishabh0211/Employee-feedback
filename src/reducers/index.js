@@ -6,7 +6,8 @@ const getInitalState = () => (
     currentUser: null,
     isLoading: false,
     userDetails: null,
-    showCreateModal: false
+    showCreateModal: false,
+    signedOut: false
   }
 );
 
@@ -107,6 +108,18 @@ const userReducer = (state = getInitalState(), { type, payload }) => {
         ...state,
         isLoading: false,
         currentUser: user
+      }
+    case actionsTypes.SIGN_OUT_START:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case actionsTypes.SIGN_OUT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        currentUser: null,
+        signedOut: true
       }
     default:
       return state;
