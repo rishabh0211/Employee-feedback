@@ -17,6 +17,11 @@ exports.getUserById = async (req, res, next) => {
   next();
 };
 
+exports.getAllUsers = async (req, res, next) => {
+  const users = await User.find();
+  res.json({ users });
+};
+
 exports.getUserProfile = async (req, res) => {
   res.json(req.profile);
 };

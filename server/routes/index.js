@@ -27,6 +27,7 @@ router.get("/api/auth/signout", authController.signout);
 // EMPLOYEE ROUTES
 router.param("userId", catchErrors(userController.getUserById));
 
+router.get("/api/users/getAll", authController.isAdmin, catchErrors(userController.getAllUsers));
 router
   .route("/api/users/:userId")
   .get(
@@ -43,15 +44,15 @@ router
   );
 
 // FEEDBACK ROUTES
-router.post("/api/feedback/addUser", authController.isAdmin, userController.addUserToReview);
+router.post("/api/feedback/addUser", authController.isAdmin, catchErrors(userController.addUserToReview));
 
-router.get("/api/feedback/:feedbackId", authController.checkAuth, userController.getFeedback);
-router.delete("/api/feedback/:feedbackId", authController.isAdmin, userController.deleteFeedback);
-router.put("/api/feedback/:feedbackId", authController.isAdmin, userController.editFeedback);
+router.get("/api/feedback/:feedbackId", authController.checkAuth, catchErrors(userController.getFeedback));
+router.delete("/api/feedback/:feedbackId", authController.isAdmin, catchErrors(userController.deleteFeedback));
+router.put("/api/feedback/:feedbackId", authController.isAdmin, catchErrors(userController.editFeedback));
 
 router.post(
   "/api/feedback",
-  userController.addFeedback
+  catchErrors(userController.addFeedback)
 );
 
 
