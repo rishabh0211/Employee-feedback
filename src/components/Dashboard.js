@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import StyledDashboard from "./styled/StyledDashboard";
 import { fetchAllUsers, fetchUserProfile, editFeedback, addUserToReview, setShowCreateModal } from "../actions";
 import CreateEmployee from "./CreateEmployee";
 
 const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDetails, editFeedback, isLoading, addUserToReview, setShowCreateModal }) => {
+  const history = useHistory();
   const [searchValue, setSearchValue] = useState('');
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [showDropdownList, setShowDropdownList] = useState(false);
@@ -15,6 +17,9 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
   const [employeeToAssign, setEmployeeToAssign] = useState('');
 
   useEffect(() => {
+    if (!currentUser || !Object.keys(currentUser).length) {
+      return history.push('/');
+    }
     fetchAllUsers();
   }, []);
 
