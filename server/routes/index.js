@@ -31,7 +31,7 @@ router.get("/api/users/getAll", authController.isAdmin, catchErrors(userControll
 router
   .route("/api/users/:userId")
   .get(
-    // authController.checkAuth,
+    authController.isAdmin,
     userController.getUserProfile
   )
   .put(
@@ -48,7 +48,7 @@ router.post("/api/feedback/addUser", authController.isAdmin, catchErrors(userCon
 
 router.get("/api/feedback/:feedbackId", authController.checkAuth, catchErrors(userController.getFeedback));
 router.delete("/api/feedback/:feedbackId", authController.isAdmin, catchErrors(userController.deleteFeedback));
-router.put("/api/feedback/:feedbackId", authController.isAdmin, catchErrors(userController.editFeedback));
+router.post("/api/feedback/:feedbackId", authController.isAdmin, catchErrors(userController.editFeedback));
 
 router.post(
   "/api/feedback",

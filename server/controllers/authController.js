@@ -51,14 +51,14 @@ exports.signout = async (req, res) => {
 };
 
 exports.checkAuth = (req, res, next) => {
-  if (!req.user.admin && !req.isAuthUser) {
+  if (!req.user || (!req.user.admin && !req.isAuthUser)) {
     return res.status(401).send({ message: "You are not authorized to perform this action" });
   }
   next();
 };
 
 exports.isAdmin = (req, res, next) => {
-  if (!req.user.admin) {
+  if (!req.user || !req.user.admin) {
     return res.status(401).send({ message: "You are not authorized to perform this action" });
   }
   next();

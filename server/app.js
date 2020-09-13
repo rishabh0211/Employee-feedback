@@ -60,7 +60,11 @@ app.use((req, res, next) => {
 });
 
 app.use(logger("combined"));
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000'],
+  optionsSuccessStatus: 200,
+  credentials: true,
+}));
 
 app.use("/", routes);
 

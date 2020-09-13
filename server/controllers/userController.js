@@ -55,7 +55,7 @@ exports.addUserToReview = async (req, res, next) => {
 exports.addFeedback = async (req, res, next) => {
   const { userId, feedback } = req.body;
   const { usersToReview } = req.user;
-  if (!usersToReview || !usersToReview.length || !canReviewUser(userId, usersToReview)) {
+  if (!req.user.admin && (!usersToReview || !usersToReview.length || !canReviewUser(userId, usersToReview))) {
     return res.status(403).json({ message: "You cannot review this employee" });
   }
   const updateObj = { user: req.user._id, feedback };
@@ -95,6 +95,7 @@ exports.deleteFeedback = async (req, res) => {
 exports.editFeedback = async (req, res, next) => {
   const { feedbackId } = req.params;
   const { message } = req.body;
+  console.log('******** message *************', message);
   const user = await User.findOneAndUpdate(
     { "feedbacks._id": feedbackId, feedbacks: { $elemMatch: { "_id": feedbackId } } },
     { $set: { "feedbacks.$.feedback": message } },
