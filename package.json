@@ -36,8 +36,9 @@
     "start-server": "env-cmd -f ./config/dev.env cross-env NODE_ENV=development nodemon server/app.js --watch server --watch server/controllers --watch server/db --watch server/models --watch server/routes",
     "start-front": "react-scripts start",
     "build-front": "react-scripts build",
-    "dev": "env-cmd -f ./config/dev.env nodemon src/app.js",
-    "start": "concurrently \"npm run start-server\" \"npm run start-front\" --kill-others",
+    "dev-1": "env-cmd -f ./config/dev.env nodemon server/app.js",
+    "dev-2": "concurrently \"npm run start-server\" \"npm run start-front\" --kill-others",
+    "start": "env-cmd -f ./config/dev.env node server/app.js",
     "test": "env-cmd -f ./config/test.env jest --watch --runInBand",
     "eject": "react-scripts eject"
   },

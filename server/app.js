@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require('express');
 const mongoose = require("mongoose");
 require('./db/mongoose');
@@ -18,6 +19,9 @@ const dev = process.env.NODE_ENV !== "production";
 
 const port = process.env.PORT || 4000;
 const app = express();
+
+const staticPath = path.join(__dirname, 'build');
+app.use(express.static(staticPath));
 
 if (!dev) {
   app.use(helmet());
