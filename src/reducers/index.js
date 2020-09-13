@@ -6,6 +6,7 @@ const getInitalState = () => (
     currentUser: null,
     isLoading: false,
     userDetails: null,
+    showCreateModal: false
   }
 );
 
@@ -74,6 +75,38 @@ const userReducer = (state = getInitalState(), { type, payload }) => {
       return {
         ...state,
         isLoading: false,
+      };
+    case actionsTypes.SET_SHOW_CREATE_MODAL:
+      return {
+        ...state,
+        showCreateModal: payload.showModal
+      }
+    case actionsTypes.REGISTER_USER_START:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case actionsTypes.REGISTER_USER_SUCCESS:
+      const users = state.users.concat(payload.user);
+      return {
+        ...state,
+        isLoading: false,
+        showCreateModal: false,
+        users
+      };
+    case actionsTypes.SUBMIT_FEEDBACK_START:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case actionsTypes.SUBMIT_FEEDBACK_SUCCESS:
+      const usersToReview = state.currentUser.usersToReview.filter(user => user._id !== payload.userId);
+      let user = JSON.parse(JSON.stringify(state.currentUser));
+      user.usersToReview = usersToReview;
+      return {
+        ...state,
+        isLoading: false,
+        currentUser: user
       }
     default:
       return state;

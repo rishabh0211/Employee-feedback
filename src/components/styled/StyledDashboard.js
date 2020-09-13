@@ -4,6 +4,20 @@ import { hex2rgba } from "../../utils";
 export default styled.section`
   padding: 2rem;
   
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .create-btn {
+    border-radius: .4rem;
+    margin-left: 2rem;
+    background: ${({ theme: { colors } }) => colors.darkBlue};
+    color: ${({ theme: { colors } }) => colors.lightGray};
+    font-weight: 500;
+    padding: 1rem;
+  }
+
   .search-container {
     margin-top: 2rem;
     max-width: 45rem;
@@ -47,6 +61,8 @@ export default styled.section`
     border-radius: .4rem;
     z-index: 1111;
     background: ${({ theme: { colors } }) => colors.lightGray};
+    max-height: 16.6rem;
+    overflow: auto;
   }
 
   .user-item {
@@ -73,6 +89,7 @@ export default styled.section`
 
   .feedbacks-container {
     margin-top: 4rem;
+    padding: 0 1rem;
   }
   .feedback-list {
     margin-top: 2rem;
@@ -92,7 +109,7 @@ export default styled.section`
   .feedback-edit {
     position: absolute;
     top: 0;
-    right: -3rem;
+    right: 0;
     cursor: pointer;
   }
   .feedback-textarea {

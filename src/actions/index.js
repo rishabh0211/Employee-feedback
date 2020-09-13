@@ -9,9 +9,8 @@ export const loginUser = (email, password) => {
       method: "POST",
       mode: "cors",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
-      credentials: "include",
       body: JSON.stringify({ email, password })
     })
       .then(res => res.json())
@@ -58,7 +57,7 @@ export const editFeedback = (feedbackId, message) => {
       body: JSON.stringify({ message }),
       credentials: "include",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       }
     })
       .then(res => res.json())
@@ -76,13 +75,51 @@ export const addUserToReview = (targetUserId, userId) => {
       body: JSON.stringify({ targetUserId, userId }),
       credentials: "include",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       }
     })
       .then(res => res.json())
       .then(user => {
         dispatch(fetchAllUsers());
         dispatch(fetchUserProfile(user._id));
+      });
+  };
+};
+
+export const setShowCreateModal = (showModal) => getActionObj(actionTypes.SET_SHOW_CREATE_MODAL, { showModal });
+
+export const registerUser = (name, email, password) => {
+  return dispatch => {
+    dispatch(getActionObj(actionTypes.REGISTER_USER_START));
+    return fetch(`${actionTypes.API_ENDPOINT}/api/auth/signup`, {
+      method: "POST",
+      body: JSON.stringify({ name, email, password }),
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => res.json())
+      .then(user => {
+        dispatch(getActionObj(actionTypes.REGISTER_USER_SUCCESS, { user }));
+      });
+  };
+};
+
+export const submitFeedback = (userId, feedback) => {
+  return dispatch => {
+    dispatch(getActionObj(actionTypes.SUBMIT_FEEDBACK_START));
+    return fetch(`${actionTypes.API_ENDPOINT}/api/feedback`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ userId, feedback })
+    })
+      .then(res => res.json())
+      .then(user => {
+        dispatch(getActionObj(actionTypes.SUBMIT_FEEDBACK_SUCCESS, { userId: user._id }));
       });
   };
 };

@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 
 const Login = ({ user, loginUser }) => {
   const history = useHistory();
-  const [email, setEmail] = useState('admin@gmail.com');
+  const [email, setEmail] = useState('messi@gmail.com');
   const [password, setPassword] = useState('pass1234');
   const [error, setError] = useState('');
 

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { FiEdit } from "react-icons/fi";
 import StyledDashboard from "./styled/StyledDashboard";
-import { fetchAllUsers, fetchUserProfile, editFeedback, addUserToReview } from "../actions";
+import { fetchAllUsers, fetchUserProfile, editFeedback, addUserToReview, setShowCreateModal } from "../actions";
+import CreateEmployee from "./CreateEmployee";
 
-const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDetails, editFeedback, isLoading, addUserToReview }) => {
+const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDetails, editFeedback, isLoading, addUserToReview, setShowCreateModal }) => {
   const [searchValue, setSearchValue] = useState('');
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [showDropdownList, setShowDropdownList] = useState(false);
@@ -16,6 +17,10 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
   useEffect(() => {
     fetchAllUsers();
   }, []);
+
+  useEffect(() => {
+    setSearchedUsers(users);
+  }, [users]);
 
   useEffect(() => {
     setEditIndex(Infinity);
@@ -30,12 +35,8 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
   };
 
   const setUsers = val => {
-    let searchedUsers = [];
-    setShowDropdownList(false);
-    if (val) {
-      searchedUsers = users.filter(user => user.name.toLowerCase().includes(val.toLowerCase()) && user.name !== currentUser.name);
-      setShowDropdownList(true);
-    }
+    let searchedUsers = users;
+    searchedUsers = users.filter(user => user.name.toLowerCase().includes(val.toLowerCase()) && user.name !== currentUser.name);
     setSearchedUsers(searchedUsers);
   };
 
@@ -47,9 +48,6 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
   };
 
   const handleSearchClick = () => {
-    // let userSelected = users.filter(user => user._id === selectedUser._id);
-    // userSelected = userSelected && userSelected[0];
-    // setUserDetails(userSelected);
     fetchUserProfile(selectedUser._id);
   };
 
@@ -72,13 +70,13 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
   };
 
   const handleAssignEmployeeClick = () => {
-    if (!employeeToAssign) return ;
+    if (!employeeToAssign) return;
     addUserToReview(userDetails._id, employeeToAssign);
   };
 
   const canReview = userId => {
     const users = userDetails.usersToReview;
-    for (let i=0; i<users.length; i++) {
+    for (let i = 0; i < users.length; i++) {
       if (users[i]._id === userId) {
         return false;
       }
@@ -86,9 +84,16 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
     return true;
   };
 
+  const handleCreateEmployee = () => {
+    setShowCreateModal(true);
+  };
+
   return (
     <StyledDashboard>
-      <h1 className="dashboard-title">Dashboard</h1>
+      <div className="header">
+        <h1 className="dashboard-title">Dashboard</h1>
+        <button className="create-btn" onClick={handleCreateEmployee}>Create Employee</button>
+      </div>
       <div className="search-container">
         <div className="search-dropdown">
           <input
@@ -188,12 +193,12 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
           </section>
         </div>
       }
+      <CreateEmployee />
     </StyledDashboard>
   )
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     users: state.users,
     currentUser: state.currentUser,
@@ -207,7 +212,8 @@ const mapDispatchToProps = dispatch => {
     fetchAllUsers: () => dispatch(fetchAllUsers()),
     fetchUserProfile: userId => dispatch(fetchUserProfile(userId)),
     editFeedback: (feedbackId, text) => dispatch(editFeedback(feedbackId, text)),
-    addUserToReview: (targetUserId, userId) => dispatch(addUserToReview(targetUserId, userId))
+    addUserToReview: (targetUserId, userId) => dispatch(addUserToReview(targetUserId, userId)),
+    setShowCreateModal: (showModal) => dispatch(setShowCreateModal(showModal))
   }
 };
 
