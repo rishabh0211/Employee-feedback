@@ -67,3 +67,22 @@ export const editFeedback = (feedbackId, message) => {
       });
   }
 };
+
+export const addUserToReview = (targetUserId, userId) => {
+  return dispatch => {
+    dispatch(getActionObj(actionTypes.ADD_USER_TO_REVIEW_START));
+    return fetch(`${actionTypes.API_ENDPOINT}/api/feedback/addUser`, {
+      method: "POST",
+      body: JSON.stringify({ targetUserId, userId }),
+      credentials: "include",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(user => {
+        dispatch(fetchAllUsers());
+        dispatch(fetchUserProfile(user._id));
+      });
+  };
+};

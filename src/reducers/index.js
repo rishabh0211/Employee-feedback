@@ -9,6 +9,8 @@ const getInitalState = () => (
   }
 );
 
+let userDetails;
+
 const userReducer = (state = getInitalState(), { type, payload }) => {
   switch (type) {
     case actionsTypes.USER_LOGIN_START:
@@ -50,7 +52,7 @@ const userReducer = (state = getInitalState(), { type, payload }) => {
         isLoading: true
       };
     case actionsTypes.EDIT_FEEDBACK_SUCCESS:
-      const userDetails = JSON.parse(JSON.stringify(state.userDetails));
+      userDetails = JSON.parse(JSON.stringify(state.userDetails));
       userDetails.feedbacks.forEach(feedback => {
         if (feedback._id === payload.feedbackId) {
           feedback.feedback = payload.message;
@@ -61,6 +63,18 @@ const userReducer = (state = getInitalState(), { type, payload }) => {
         isLoading: false,
         userDetails
       };
+    case actionsTypes.ADD_USER_TO_REVIEW_START:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case actionsTypes.ADD_USER_TO_REVIEWS_SUCCESS:
+      userDetails = JSON.parse(JSON.stringify(state.userDetails));
+      // userDetails.usersToReview;
+      return {
+        ...state,
+        isLoading: false,
+      }
     default:
       return state;
   }

@@ -121,4 +121,19 @@ export default styled.section`
     color: ${({ theme: { colors } }) => colors.lightGray};
     font-weight: 500;
   }
+  .assign-employee-section {
+    padding: 0 1rem;
+    margin-top: 2rem;
+  }
+  .assign-dropdown {
+    margin-top: 2rem;
+  }
+  .add-btn {
+    border-radius: .4rem;
+    margin-left: 2rem;
+    background: ${({ theme: { colors } }) => colors.darkBlue};
+    color: ${({ theme: { colors } }) => colors.lightGray};
+    font-weight: 500;
+    padding: .4rem 1rem;
+  }
 `;

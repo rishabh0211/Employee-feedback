@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { FiEdit } from "react-icons/fi";
 import StyledDashboard from "./styled/StyledDashboard";
-import { fetchAllUsers, fetchUserProfile, editFeedback } from "../actions";
+import { fetchAllUsers, fetchUserProfile, editFeedback, addUserToReview } from "../actions";
 
-const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDetails, editFeedback, isLoading }) => {
+const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDetails, editFeedback, isLoading, addUserToReview }) => {
   const [searchValue, setSearchValue] = useState('');
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [showDropdownList, setShowDropdownList] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [editIndex, setEditIndex] = useState(Infinity);
   const [editText, setEditText] = useState('');
-  // const [userDetails, setUserDetails] = useState(null);
+  const [employeeToAssign, setEmployeeToAssign] = useState('');
 
   useEffect(() => {
     fetchAllUsers();
@@ -71,6 +71,21 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
     };
   };
 
+  const handleAssignEmployeeClick = () => {
+    if (!employeeToAssign) return ;
+    addUserToReview(userDetails._id, employeeToAssign);
+  };
+
+  const canReview = userId => {
+    const users = userDetails.usersToReview;
+    for (let i=0; i<users.length; i++) {
+      if (users[i]._id === userId) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   return (
     <StyledDashboard>
       <h1 className="dashboard-title">Dashboard</h1>
@@ -124,6 +139,24 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
                 }
               </tbody>
             </table>
+
+            {/* ADD EMPLOYEE TO REVIEW SECTION  -- to be moved as a separate component**/}
+            <div className="assign-employee-section">
+              <h3>Add employees to review</h3>
+              <div className="assign-dropdown">
+                <select name="assign-employee" id="assign-employee" value={employeeToAssign} onChange={e => setEmployeeToAssign(e.target.value)}>
+                  <option value=''>Select</option>
+                  {users && !!users.length && users.map(user => {
+                    if (!user.admin && user._id !== userDetails._id && canReview(user._id)) {
+                      return <option className="user-item" value={user._id} key={user.email}>{user.name}</option>
+                    }
+                  })}
+                </select>
+                <button className="add-btn" onClick={handleAssignEmployeeClick}>Add</button>
+              </div>
+            </div>
+            {/* ADD EMPLOYEE TO REVIEW END**/}
+
             {/* FEEDBACK SECTION -- to be moved as a separate component**/}
             <div className="feedbacks-container">
               <h3>Feedbacks Received</h3>
@@ -173,7 +206,8 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchAllUsers: () => dispatch(fetchAllUsers()),
     fetchUserProfile: userId => dispatch(fetchUserProfile(userId)),
-    editFeedback: (feedbackId, text) => dispatch(editFeedback(feedbackId, text))
+    editFeedback: (feedbackId, text) => dispatch(editFeedback(feedbackId, text)),
+    addUserToReview: (targetUserId, userId) => dispatch(addUserToReview(targetUserId, userId))
   }
 };
 
