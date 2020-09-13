@@ -1,0 +1,10 @@
+export const API_ENDPOINT = 'http://localhost:4000';
+
+export const USER_LOGIN_START = "USER_LOGIN_START";
+export const USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
+
+export const CREATE_USER_START = "CREATE_USER_START";
+export const CREATE_USER_SUCCESS = "CREATE_USER_SUCCESS";
+
+export const GET_USERS_START = "GET_USERS_START";
+export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";

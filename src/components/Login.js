@@ -1,10 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import StyledLogin from "./styled/StyledLogin";
+import { loginUser } from '../actions';
+import { useHistory } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ user, loginUser }) => {
+  const history = useHistory();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (user && Object.keys(user).length)
+      history.push('/dashboard');
+  }, [user]);
+
+  const handleChange = (type) => {
+    return (e) => {
+      setError('');
+      type === 'email' ? setEmail(e.target.value) : setPassword(e.target.value);
+    };
+  };
+
 
   const handleFormSubmit = e => {
     e.preventDefault();
+    loginUser(email, password);
   };
 
   return (
@@ -18,6 +39,8 @@ const Login = () => {
               id="email"
               className="form-control"
               placeholder="Email"
+              value={email}
+              onChange={handleChange('email')}
             />
             <label htmlFor="email" className="form-label">Email</label>
           </div>
@@ -27,6 +50,8 @@ const Login = () => {
               id="password"
               className="form-control"
               placeholder="Password"
+              value={password}
+              onChange={handleChange('password')}
             />
             <label htmlFor="password" className="form-label">Password</label>
           </div>
@@ -37,4 +62,17 @@ const Login = () => {
   )
 }
 
-export default Login;
+const mapStateToProps = state => {
+  return {
+    user: state.currentUser
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loginUser: (email, password) => dispatch(loginUser(email, password))
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
