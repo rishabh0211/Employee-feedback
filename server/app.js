@@ -50,7 +50,7 @@ const sessionConfig = {
 };
 if (!dev) {
   sessionConfig.cookie.secure = true; // serve secure cookies in production environment
-  server.set("trust proxy", 1); // trust first proxy
+  app.set("trust proxy", 1); // trust first proxy
 }
 app.use(session(sessionConfig));
 
