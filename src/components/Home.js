@@ -5,6 +5,7 @@ import { Switch, Route } from "react-router-dom";
 import StyledHome from './styled/StyledHome';
 import Nav from './Nav';
 import theme from '../styles/theme';
+import Loader from './Loader';
 
 /** Lazy Loaded Modules */
 const LazyDashboard = React.lazy(() => import("./Dashboard"));
@@ -16,6 +17,7 @@ const Home = () => {
     <ThemeProvider theme={theme}>
       <StyledHome>
         <Nav />
+        <Loader />
         <div className="main-container">
           <Suspense fallback={<div>Loading...</div>}>
             <Switch>
