@@ -4,7 +4,7 @@ import StyledLogin from "./styled/StyledLogin";
 import { loginUser } from '../actions';
 import { useHistory } from "react-router-dom";
 
-const Login = ({ user, loginUser }) => {
+const Login = ({ user, loginUser, isLoading }) => {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -59,7 +59,7 @@ const Login = ({ user, loginUser }) => {
             />
             <label htmlFor="password" className="form-label">Password</label>
           </div>
-          <button className="submit-btn">Submit</button>
+          <button className="submit-btn" disabled={isLoading}>{isLoading ? "Submitting...." : "Submit"}</button>
         </form>
       </div>
     </StyledLogin>
@@ -68,7 +68,8 @@ const Login = ({ user, loginUser }) => {
 
 const mapStateToProps = state => {
   return {
-    user: state.currentUser
+    user: state.currentUser,
+    isLoading: state.isLoading
   }
 }
 

@@ -7,7 +7,8 @@ const getInitalState = () => (
     isLoading: false,
     userDetails: null,
     showCreateModal: false,
-    signedOut: false
+    signedOut: false,
+    loggingIn: false
   }
 );
 

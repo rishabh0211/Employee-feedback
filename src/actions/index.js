@@ -13,7 +13,11 @@ export const loginUser = (email, password) => {
       },
       body: JSON.stringify({ email, password })
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.status === 200) {
+          return res.json();
+        }
+      })
       .then(user => {
         dispatch(getActionObj(actionTypes.USER_LOGIN_SUCCESS, { user }));
       }).catch(e => {
