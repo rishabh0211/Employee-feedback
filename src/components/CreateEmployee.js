@@ -17,6 +17,9 @@ const CreateEmployee = ({ showCreateModal, registerUser, setShowCreateModal }) =
     };
   }, [showCreateModal]);
 
+  /**
+   * Input change handler
+   */
   const handleChange = e => {
     const targetName = e.target.name;
     const value = e.target.value;
@@ -35,14 +38,20 @@ const CreateEmployee = ({ showCreateModal, registerUser, setShowCreateModal }) =
     }
   };
 
+  /**
+   * Form submit handler. Makes the api call to create a new User
+   */
   const handleFormSubmit = e => {
     e.preventDefault();
     registerUser(name, email, password);
   };
 
+  /**
+   * Cancel handler. closes the modal.
+   */
   const handleCancelClick = () => {
     setShowCreateModal(false);
-  }
+  };
 
   return (
     <>

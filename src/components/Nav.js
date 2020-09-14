@@ -4,6 +4,9 @@ import { useHistory } from "react-router-dom";
 import StyledNav from "./styled/StyledNav";
 import { signOutUser } from "../actions";
 
+/**
+ * Navbar Component
+ */
 const Nav = ({ signOutUser, currentUser, signedOut }) => {
   const history = useHistory();
 

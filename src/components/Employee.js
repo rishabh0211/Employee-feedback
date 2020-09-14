@@ -22,6 +22,11 @@ const Employee = ({ currentUser, submitFeedback }) => {
     setSelectedUser(null);
   }, [currentUser]);
 
+  /**
+   * Handles the click on user list item. Opens it to add a feedback
+   * @param {Object} user 
+   * @param {String} index 
+   */
   const handleOnUserClick = (user, index) => {
     return () => {
       setFeedback('');
@@ -30,11 +35,17 @@ const Employee = ({ currentUser, submitFeedback }) => {
     };
   };
 
+  /**
+   * Cancel add review handler. Closes the add feedback section
+   */
   const handleCancelClick = () => {
     setReviewIndex(Infinity);
     setFeedback('');
   };
 
+  /**
+   * Saves the feedback. Makes the api call
+   */
   const handleSave = () => {
     if (!feedback) return;
     submitFeedback(selectedUser._id, feedback);

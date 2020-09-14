@@ -4,6 +4,9 @@ import StyledLogin from "./styled/StyledLogin";
 import { loginUser } from '../actions';
 import { useHistory } from "react-router-dom";
 
+/**
+ * Login Component
+ */
 const Login = ({ user, loginUser, isLoading }) => {
   const history = useHistory();
   const [email, setEmail] = useState('');
@@ -19,6 +22,9 @@ const Login = ({ user, loginUser, isLoading }) => {
     }
   }, [user]);
 
+  /**
+   * Change listener for login and password
+   */
   const handleChange = (type) => {
     return (e) => {
       setError('');
@@ -26,7 +32,9 @@ const Login = ({ user, loginUser, isLoading }) => {
     };
   };
 
-
+  /**
+   * Form submit handler
+   */
   const handleFormSubmit = e => {
     e.preventDefault();
     loginUser(email, password);

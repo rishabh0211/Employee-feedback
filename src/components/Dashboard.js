@@ -6,14 +6,23 @@ import StyledDashboard from "./styled/StyledDashboard";
 import { fetchAllUsers, fetchUserProfile, editFeedback, addUserToReview, setShowCreateModal } from "../actions";
 import CreateEmployee from "./CreateEmployee";
 
+/**
+ * Dashboard Component for Admin only
+ */
 const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDetails, editFeedback, isLoading, addUserToReview, setShowCreateModal }) => {
   const history = useHistory();
+  // Tracks the search value
   const [searchValue, setSearchValue] = useState('');
+  // Contains users matching the search value
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [showDropdownList, setShowDropdownList] = useState(false);
+  // Contains the selected user from the dropdown
   const [selectedUser, setSelectedUser] = useState(null);
+  // Contains the index of the feedback being editted
   const [editIndex, setEditIndex] = useState(Infinity);
+  // Contains the edit text for the feedback
   const [editText, setEditText] = useState('');
+  // Contains the employee selectd from the add to review dropdown
   const [employeeToAssign, setEmployeeToAssign] = useState('');
 
   useEffect(() => {
@@ -23,6 +32,7 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
     fetchAllUsers();
   }, []);
 
+  // Updates searched users whenever the store changes users
   useEffect(() => {
     const userList = users.filter(user => user._id !== currentUser._id);
     setSearchedUsers(userList);
@@ -33,6 +43,9 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
     setEditText('');
   }, [isLoading]);
 
+  /**
+   * Handles changes in the search user input
+   */
   const handleSearchChange = e => {
     setSelectedUser(null);
     const val = e.target.value;
@@ -40,12 +53,18 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
     setUsers(val);
   };
 
+  /**
+   * Sets the users dropdown based on the serached input
+   */
   const setUsers = val => {
     let searchedUsers = users;
     searchedUsers = users.filter(user => user.name.toLowerCase().includes(val.toLowerCase()) && user.name !== currentUser.name);
     setSearchedUsers(searchedUsers);
   };
 
+  /**
+   * Function triggered when user is selected from the search dropdown
+   */
   const handleSelectUser = user => {
     return () => {
       setSelectedUser(user);
@@ -53,10 +72,18 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
     };
   };
 
+  /**
+   * Gets the profile information of the selected user
+   */
   const handleSearchClick = () => {
     fetchUserProfile(selectedUser._id);
   };
 
+  /**
+   * Handles the click on feedback edit icon
+   * @param {Object} feedback 
+   * @param {number} index 
+   */
   const handleFeedbackEdit = (feedback, index) => {
     return () => {
       setEditIndex(index);
@@ -64,22 +91,36 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
     };
   };
 
+  /**
+   * cancels the feedback edit
+   */
   const cancelFeedbackEdit = () => {
     setEditIndex(Infinity);
     setEditText('');
   };
 
+  /**
+   * Makes the api call to save the modified feedback
+   * @param {Object} feedback 
+   */
   const handleSaveFeedback = (feedback) => {
     return () => {
       editFeedback(feedback._id, editText);
     };
   };
 
+  /**
+   * Handles the click on add employee to review. Makes the api call
+   */
   const handleAssignEmployeeClick = () => {
     if (!employeeToAssign) return;
     addUserToReview(userDetails._id, employeeToAssign);
   };
 
+  /**
+   * Checks whether a given user can be added to the current user's review list
+   * @param {String} userId 
+   */
   const canReview = userId => {
     const users = userDetails.usersToReview;
     for (let i = 0; i < users.length; i++) {
@@ -90,6 +131,9 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
     return true;
   };
 
+  /**
+   * Handles create employee click. Opens the create modal
+   */
   const handleCreateEmployee = () => {
     setShowCreateModal(true);
   };
@@ -101,6 +145,8 @@ const Dashboard = ({ users, currentUser, fetchAllUsers, fetchUserProfile, userDe
         <button className="create-btn" onClick={handleCreateEmployee}>Create Employee</button>
       </div>
       <h3 className="user-name">Hello {currentUser && currentUser.name}</h3>
+
+      {/** Search User Container */}
       <div className="search-container">
         <div className="search-dropdown">
           <input
