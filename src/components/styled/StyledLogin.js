@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { hex2rgba } from "../../utils";
+import { media } from "../../styles";
 
 export default styled.section`
   height: 100%;
@@ -14,6 +15,11 @@ export default styled.section`
     padding: 4rem;
     border-radius: 1rem;
     background: rgb(237, 246, 249);
+    ${media.phablet`
+      min-width: auto;
+      width: 95%;
+      padding: 2rem;
+    `}
   }
   .modal-title {
     font-size: 2.8rem;

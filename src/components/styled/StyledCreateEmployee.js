@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { hex2rgba } from "../../utils";
+import { media } from "../../styles";
 
 export default styled.div `
   position: fixed;
@@ -21,6 +22,10 @@ export default styled.div `
     transform: translate(-50%, -50%);
     z-index: 11;
     background: #edf6f9;
+    ${media.phablet`
+      min-width: auto;
+      width: 95%;
+    `}
   }
   
   .form {
